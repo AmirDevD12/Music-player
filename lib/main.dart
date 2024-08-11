@@ -13,6 +13,7 @@ import 'view/splash/splash_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  print("object");
   await Hive.initFlutter();
   Hive.registerAdapter(SaveNamePlayListAdapter());
   Hive.registerAdapter(SaveSongAdapter());
