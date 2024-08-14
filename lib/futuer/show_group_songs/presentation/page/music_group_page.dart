@@ -4,7 +4,6 @@ import 'package:amir_music/core/resource/my_colors.dart';
 import 'package:amir_music/core/resource/typography.dart';
 import 'package:amir_music/core/widgets/container/secondary_Container.dart';
 import 'package:amir_music/core/widgets/item_listview_songs.dart';
-import 'package:amir_music/futuer/music_division/data/model_all_songs/model_all_songs.dart';
 import 'package:amir_music/futuer/show_group_songs/presentation/controller/music_group_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';

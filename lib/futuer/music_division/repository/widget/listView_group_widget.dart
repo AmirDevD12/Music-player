@@ -17,12 +17,12 @@ class ListviewGroupWidget extends GetView<MusicDivisionController> {
         children: [
           Obx(() {
             final myMap =
-            controller.listGrouping.entries.toList();
+            controller.mapSongsGrouping.entries.toList();
             return Expanded(
               child: ListView.builder(
                   shrinkWrap: true,
                   scrollDirection: Axis.horizontal,
-                  itemCount: controller.listGrouping.length,
+                  itemCount: controller.mapSongsGrouping.length,
                   itemBuilder: (context, index) {
                     final name = myMap[index].key;
                     final listSongModel = myMap[index].value;

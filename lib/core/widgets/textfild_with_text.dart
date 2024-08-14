@@ -1,8 +1,6 @@
-import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:amir_music/core/resource/my_colors.dart';
 import 'package:amir_music/core/resource/typography.dart';
-import 'package:amir_music/futuer/home/repository/controller/home_controller.dart';
+import 'package:flutter/material.dart';
 
 class TextFiledText extends StatelessWidget {
   final String textInput;

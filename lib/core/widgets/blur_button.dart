@@ -7,10 +7,10 @@ class BlurButton extends StatelessWidget {
   final Widget child;
 
   const BlurButton({
-    Key? key,
+    super.key,
     required this.onPressed,
     required this.child,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

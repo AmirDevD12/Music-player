@@ -1,13 +1,11 @@
 import 'dart:math';
 import 'dart:ui';
 
-import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:on_audio_query/on_audio_query.dart';
 import 'package:amir_music/core/resource/my_colors.dart';
 import 'package:amir_music/core/resource/typography.dart';
 import 'package:amir_music/core/widgets/item_listview_songs.dart';
-import 'package:amir_music/futuer/home/repository/controller/home_controller.dart';
+import 'package:flutter/material.dart';
+import 'package:on_audio_query/on_audio_query.dart';
 
 class SongsArtist extends StatefulWidget {
   final List<SongModel> songList;

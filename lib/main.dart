@@ -3,12 +3,12 @@ import 'package:amir_music/futuer/music_division/data/model_hive/music_group.dar
 import 'package:flutter/material.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:hive_flutter/adapters.dart';
+
 import 'core/config/theme_data.dart';
 import 'futuer/music_division/data/model_all_songs/model_all_songs.dart';
 import 'init_binding.dart';
 import 'model/model/add_name_playlist/add_name_playlist.dart';
 import 'model/model/save_song/save_song_index.dart';
-import 'futuer/home/repository/page/home_view.dart';
 import 'view/splash/splash_page.dart';
 
 void main() async {

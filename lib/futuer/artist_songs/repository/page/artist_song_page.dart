@@ -208,7 +208,7 @@ class ArtistSongPage extends GetView<ArtistSongController> {
                       ModelAllSongs updatedSong = songs.copyWith(
                           favorite: songs.favorite ? false : true);
 
-                      Get.find<MusicDivisionController>().updateSong(index, updatedSong);
+                      Get.find<MusicDivisionController>().callSongsMethodModel(index: index,song:  updatedSong, method: AllSongsMethodModel.updateSong);
                     },
                     favorite: songs.favorite,
                   );

@@ -22,7 +22,7 @@ class MusicGroupController extends GetxController {
     showSongs.value = false;
     final index = random.nextInt(musicController.songsList.length - 1);
     randomSongs = musicController.songsList[index];
-    group.assignAll(musicController.listGrouping);
+    group.assignAll(musicController.mapSongsGrouping);
 
     Future.delayed(const Duration(milliseconds: 500)).then((value) {
       showSongs.value = true;

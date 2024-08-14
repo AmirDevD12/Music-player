@@ -1,11 +1,9 @@
-import 'package:amir_music/futuer/music_division/repository/controller/music_controller.dart';
 import 'package:amir_music/futuer/select_name_songs/repository/controller/select_name_songs_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 void showNameInputDialog() {
   final SelectNameSongsController selectController = Get.find();
-  final MusicDivisionController musicDivisionController =Get.find();
   Get.defaultDialog(
 
     title: "Enter List Name",

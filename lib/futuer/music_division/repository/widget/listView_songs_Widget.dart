@@ -2,6 +2,7 @@ import 'package:amir_music/core/widgets/item_listview_songs.dart';
 import 'package:amir_music/futuer/music_division/data/model_all_songs/model_all_songs.dart';
 import 'package:amir_music/futuer/music_division/repository/controller/music_controller.dart';
 import 'package:amir_music/view_model/audio_controller/audio_controller.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:just_audio/just_audio.dart';
@@ -59,9 +60,11 @@ class ListviewSongsWidget extends GetView<MusicDivisionController> {
                                     ModelAllSongs updatedSong = song.copyWith(
                                         favorite: song.favorite ? false : true);
 
-                                    controller.updateSong(index, updatedSong);
+                                    controller.callSongsMethodModel(index: index,song:  updatedSong, method: AllSongsMethodModel.updateSong);
                                   } catch (e) {
-                                    print("An error occurred: $e");
+                                    if (kDebugMode) {
+                                      print("An error occurred: $e");
+                                    }
                                   }
                                 },
                               );

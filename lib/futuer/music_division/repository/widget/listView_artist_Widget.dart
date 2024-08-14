@@ -19,12 +19,12 @@ class ListviewArtistWidget extends GetView<MusicDivisionController> {
               child: ListView.builder(
                 scrollDirection: Axis.horizontal,
                 shrinkWrap: true,
-                itemCount: controller.songsArtist.length > 100
+                itemCount: controller.mapSongsArtist.length > 100
                     ? 10
-                    : controller.songsArtist.length ~/ 2,
+                    : controller.mapSongsArtist.length ~/ 2,
                 itemBuilder: (context, index) {
-                  final singer = controller.songsArtist.keys.toList()[index];
-                  final songs = controller.songsArtist[singer]!.first;
+                  final singer = controller.mapSongsArtist.keys.toList()[index];
+                  final songs = controller.mapSongsArtist[singer]!.first;
                   return GestureDetector(
                     onTap: () {
                       Get.put(ArtistSongController(
@@ -32,7 +32,7 @@ class ListviewArtistWidget extends GetView<MusicDivisionController> {
                               Get.find<MusicDivisionController>()));
 
                       Get.to(const ArtistSongPage(), arguments: {
-                        "listArtistSongs": controller.songsArtist[singer]!
+                        "listArtistSongs": controller.mapSongsArtist[singer]!
                       });
                     },
                     child: SizedBox(

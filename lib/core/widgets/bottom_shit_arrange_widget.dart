@@ -29,8 +29,9 @@ class BottomShitArrangeWidget extends GetView<MusicDivisionController> {
           const SizedBox(height: 16),
           ArrangementContainer(
               onTap: () {
-                controller.changeSortSongs(SongSortType.DATE_ADDED
-                );
+                controller.callSongsMethodModel(
+                    sort: SongSortType.DATE_ADDED,
+                    method: AllSongsMethodModel.changeSortSongs);
               },
               color: controller.songSortType.value == SongSortType.DATE_ADDED
                   ? MyColors.backIcon
@@ -44,8 +45,9 @@ class BottomShitArrangeWidget extends GetView<MusicDivisionController> {
               )),
           ArrangementContainer(
             onTap: () async {
-              controller.changeSortSongs(SongSortType.DISPLAY_NAME);
-            },
+              controller.callSongsMethodModel(
+                  sort: SongSortType.DISPLAY_NAME,
+                  method: AllSongsMethodModel.changeSortSongs);            },
             color: controller.songSortType.value == SongSortType.DISPLAY_NAME
                 ? MyColors.backIcon
                 : MyColors.white,
@@ -59,8 +61,9 @@ class BottomShitArrangeWidget extends GetView<MusicDivisionController> {
           ),
           ArrangementContainer(
               onTap: () {
-                controller.changeSortSongs(SongSortType.ALBUM);
-              },
+                controller.callSongsMethodModel(
+                    sort: SongSortType.ARTIST,
+                    method: AllSongsMethodModel.changeSortSongs);              },
               color: controller.songSortType.value == SongSortType.ARTIST
                   ? MyColors.backIcon
                   : MyColors.white,

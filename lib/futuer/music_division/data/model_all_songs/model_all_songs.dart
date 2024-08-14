@@ -1,9 +1,10 @@
+import 'package:amir_music/view_model/songs_vm/receive_songs.dart';
 import 'package:hive/hive.dart';
 
 part 'model_all_songs.g.dart';
 
 @HiveType(typeId: 4)
-class ModelAllSongs {
+class ModelAllSongs extends ReceiveSongs{
   @HiveField(0)
   final String title;
   @HiveField(1)
