@@ -1,9 +1,13 @@
 import 'package:amir_music/core/resource/my_colors.dart';
 import 'package:amir_music/core/resource/typography.dart';
+import 'package:amir_music/futuer/explore_artist/repository/page/artist_page.dart';
 import 'package:amir_music/futuer/home/repository/controller/home_controller.dart';
+import 'package:amir_music/futuer/home/repository/page/home_view.dart';
+import 'package:amir_music/futuer/music_division/repository/page/music.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:on_audio_query/on_audio_query.dart';
+import 'package:shimmer/main.dart';
 
 class ItemListviewSongs extends StatefulWidget {
   final String subTitle;
@@ -31,22 +35,20 @@ class ItemListviewSongs extends StatefulWidget {
 }
 
 class _ItemListviewSongsState extends State<ItemListviewSongs> {
-  // final SongList songs = Get.find();
-  // final SongsViewController songsViewController = Get.find();
-  final HomeController homeController = Get.find();
+
 
   @override
   Widget build(BuildContext context) {
     return ListTile(
       onTap: widget.onTap,
-      trailing: GestureDetector(
+      trailing:Get.routing.current==MusicDivision.routeMusicDivision? GestureDetector(
         onTap:widget.changeFavorite,
         child: Image.asset(
           "assets/icon/${widget.favorite ? "heart.png" : "like.png"}",
           width: 30,
           color: Colors.red,
         ),
-      ),
+      ):const SizedBox(),
       title: Text(
         style: Fonts.sm
             .copyWith(color: MyColors.white, fontWeight: FontWeight.bold),

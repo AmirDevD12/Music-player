@@ -1,22 +1,40 @@
-import 'package:amir_music/view_model/songs_vm/receive_songs.dart';
+import 'package:amir_music/core/resource/my_colors.dart';
+import 'package:amir_music/futuer/music_division/data/model_all_songs/model_all_songs.dart';
+import 'package:amir_music/futuer/music_division/data/model_hive/music_group.dart';
+import 'package:amir_music/futuer/music_division/repository/controller/music_controller.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:hive/hive.dart';
 
 class SelectNameSongsController extends GetxController {
-  final ReceiveSongs receiveSongs = Get.find();
-  RxList<String> selectedArtists = <String>[].obs;
-  RxList<String> artistNames = <String>[].obs;
+  final MusicDivisionController musicController = Get.find();
+  List<String> selectedArtists = <String>[].obs;
+  List<String> artistNames = <String>[].obs;
   final TextEditingController nameController = TextEditingController();
-
-  void loadArtistNames() {
-    final nameAll = receiveSongs.getArtistNames();
-    artistNames.assignAll(nameAll);
-  }
 
   @override
   void onInit() {
     super.onInit();
     loadArtistNames();
+    ever(musicController.songsList, (value) {
+      loadArtistNames();
+      if (kDebugMode) {
+        print('***listener Call*** ever in Select Name Page: $value');
+      }
+
+    });
+  }
+
+  void loadArtistNames() {
+    final names = musicController.songsList
+        .map((song) {
+          final List<String> parts = song.displayName.split(' - ');
+          return parts.first;
+        })
+        .toSet()
+        .toList();
+    artistNames.assignAll(names );
   }
 
   void toggleArtistSelection(String artistName) {
@@ -36,6 +54,29 @@ class SelectNameSongsController extends GetxController {
           .where((artist) => artist.toLowerCase().contains(query.toLowerCase()))
           .toList();
       artistNames.assignAll(filtered);
+    }
+  }
+
+  checkNameGroupList() {
+    final listName = nameController.text;
+    final bool isHaveNameList =
+        musicController.listNameGrouping.containsKey(listName);
+    if (listName.isNotEmpty && !isHaveNameList) {
+      musicController.listNameGrouping[listName] = selectedArtists;
+      final musicGroup =
+          MusicGroup(keyName: listName, namesArtists: selectedArtists);
+      final boxMusicGroup = Hive.box<MusicGroup>("MusicGroup");
+      boxMusicGroup.add(musicGroup);
+      musicController.getGroupList();
+      selectedArtists.clear();
+      Get.back();
+      Get.back();
+    } else {
+      Get.snackbar(
+          backgroundColor: MyColors.white,
+          "Error",
+          isHaveNameList ? "This name exists" : "Please enter a name trust ",
+          snackPosition: SnackPosition.BOTTOM);
     }
   }
 }

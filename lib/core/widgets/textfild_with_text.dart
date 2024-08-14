@@ -26,7 +26,6 @@ class TextFiledText extends StatelessWidget {
       ),
       height: 50,
       child: TextField(
-        controller: Get.find<HomeController>().txtSearch.value,
         maxLines: 1,
         cursorColor: Colors.black,
         style: const TextStyle(color: Colors.black),

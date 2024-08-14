@@ -1,5 +1,8 @@
 import 'package:amir_music/futuer/home/repository/page/home_view.dart';
+import 'package:amir_music/futuer/music_division/repository/controller/music_controller.dart';
+import 'package:amir_music/futuer/music_division/repository/page/music.dart';
 import 'package:amir_music/view/splash/widget/massenger_helper.dart';
+import 'package:amir_music/view_model/songs_vm/receive_songs.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -40,8 +43,9 @@ class SplashViewModel extends GetxController {
     if (status) {
       // await Future.delayed(const Duration(seconds: 2));
     }
-
-    Get.offAndToNamed(HomeViewWidget.routerHomeViewWidget);
+    await Get.putAsync<List<SongModel>>(() async => ReceiveSongs().getSongs());
+    Get.lazyPut(()=>MusicDivisionController(receiveSongs: Get.find<List<SongModel>>()));
+    Get.offAndToNamed(MusicDivision.routeMusicDivision);
   }
 
   void _closeApp() {

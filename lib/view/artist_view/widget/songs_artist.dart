@@ -20,7 +20,6 @@ class SongsArtist extends StatefulWidget {
 }
 
 class _SongsArtistState extends State<SongsArtist> {
-  final HomeController homeController = Get.find();
 
   Random random = Random();
   int id = 0;

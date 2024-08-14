@@ -17,7 +17,6 @@
 // }
 //
 // class _ExploreArtistState extends State<ExploreArtist> {
-//   final SongList songs = Get.find();
 //   final HomeController homeController = Get.find();
 //
 //   late Future<Map<String, List<SongModel>>> _futureSongsArtist;
@@ -28,7 +27,7 @@
 //     super.initState();
 //     _futureSongsArtist = songs.getArtists();
 //     homeController.showSongs.value = false;
-//     Future.delayed(const Duration(seconds: 5)).then((value) {
+//     Future.delayed(const Duration(seconds: 2)).then((value) {
 //       homeController.showSongs.value = true;
 //     });
 //   }

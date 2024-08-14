@@ -37,16 +37,12 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
-      initialRoute: SplashPage.routeSplashPage,
-      initialBinding: InitBinding(),
       theme: ThemeConfig.theme,
+
+      initialBinding: InitBinding(),
+      initialRoute: SplashPage.routeSplashPage,
       getPages: AppRouting().pages(),
 
-      routes: {
-        SplashPage.routeSplashPage: (context) => const SplashPage(),
-        HomeViewWidget.routerHomeViewWidget: (context) =>
-        const HomeViewWidget(),
-      },
     );
   }
 }

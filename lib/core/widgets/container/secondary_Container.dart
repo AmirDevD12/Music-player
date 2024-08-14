@@ -13,6 +13,7 @@ class SecondaryContainer extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.symmetric(vertical: 10,horizontal: 15),
         decoration: DecorationContainer.secondaryContainer,
+
         child: child,
       ),
     );

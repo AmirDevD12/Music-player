@@ -5,14 +5,13 @@ import 'package:amir_music/futuer/select_name_songs/repository/widget/diolog_new
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class ArtistSelectionScreen extends StatelessWidget {
+class ArtistSelectionScreen extends GetView<SelectNameSongsController> {
   static const routerArtistSelectionScreen = "/ArtistSelectionScreen";
 
   const ArtistSelectionScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final SelectNameSongsController artistController = Get.put(SelectNameSongsController());
 
     return Scaffold(
       backgroundColor: MyColors.background,
@@ -26,7 +25,7 @@ class ArtistSelectionScreen extends StatelessWidget {
 
 
               // Get.find<MusicDivisionController>().listNameGrouping[]=[];
-              print('Selected Artists: ${artistController.selectedArtists}');
+              print('Selected Artists: ${controller.selectedArtists}');
             },
           ),
         ],
@@ -41,7 +40,7 @@ class ArtistSelectionScreen extends StatelessWidget {
               child: TextField(
                 style: TextStyle(color: MyColors.white),
                 onChanged: (value) {
-                  artistController.filterArtistNames(value);
+                  controller.filterArtistNames(value);
                 },
                 decoration: InputDecoration(
 
@@ -58,10 +57,10 @@ class ArtistSelectionScreen extends StatelessWidget {
             Expanded(
               child: Obx(() {
                 return ListView.builder(
-                  itemCount: artistController.artistNames.length,
+                  itemCount: controller.artistNames.length,
                   itemBuilder: (context, index) {
-                    final artistName = artistController.artistNames[index];
-                    final isSelected = artistController.selectedArtists.contains(artistName);
+                    final artistName = controller.artistNames[index];
+                    final isSelected = controller.selectedArtists.contains(artistName);
 
                     return ListTile(
                       title: Text(artistName,
@@ -74,7 +73,7 @@ class ArtistSelectionScreen extends StatelessWidget {
                       ),
                       onTap: () {
                         print("**********");
-                        artistController.toggleArtistSelection(artistName);
+                        controller.toggleArtistSelection(artistName);
                       },
                     );
                   },

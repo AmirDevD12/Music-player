@@ -1,21 +1,24 @@
+import 'dart:async';
+import 'dart:math';
+
 import 'package:amir_music/core/resource/constants.dart';
 import 'package:amir_music/core/shardrefrense/shareprerefrens.dart';
 import 'package:amir_music/futuer/music_division/data/model_all_songs/model_all_songs.dart';
 import 'package:amir_music/futuer/music_division/data/model_hive/music_group.dart';
-import 'package:amir_music/view_model/songs_vm/receive_songs.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hive/hive.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 
 class MusicDivisionController extends GetxController {
-  final ReceiveSongs receiveSongs;
+  final List<SongModel> receiveSongs;
 
   MusicDivisionController({required this.receiveSongs});
 
   final appSharedPreferences = AppSharedPreferences();
   bool isFirstLaunch = false;
-  final RxMap listGrouping = {}.obs;
+  final Map<String, List<ModelAllSongs>> listGrouping =
+      <String, List<ModelAllSongs>>{}.obs;
   final Map<String, List<String>> listNameGrouping = {
     "Pop": Constants.namePop,
     "classic": Constants.nameClassic,
@@ -24,14 +27,17 @@ class MusicDivisionController extends GetxController {
   };
   List<SongModel> allSongs = [];
   RxList songsList = <ModelAllSongs>[].obs;
-  final RxMap songsArtist = {}.obs;
+  final Map<String, List<ModelAllSongs>> songsArtist =
+      <String, List<ModelAllSongs>>{}.obs;
   final RxBool showSongs = false.obs;
   final ScrollController scrollController = ScrollController();
   final Rx<SongSortType> songSortType = SongSortType.DATE_ADDED.obs;
-  RxBool loading = false.obs;
+  RxBool loading = true.obs;
   RxInt visibleItemCount = 10.obs;
   List<ModelAllSongs> songsRandom = [];
   final boxAllSongs = Hive.box<ModelAllSongs>("AllSongs");
+  Random random = Random();
+  late ModelAllSongs randomSongs;
 
   @override
   void onInit() {
@@ -40,13 +46,13 @@ class MusicDivisionController extends GetxController {
     checkFirstLaunch();
 
     getAllSongsLocal();
-
-    getListArtist();
-    addHiveDataToMap();
-    getGroupList();
+    ever(songsList, (value) {
+      everSongsList();
+    });
     Future.delayed(const Duration(seconds: 3)).then((value) {
       showSongs.value = true;
       scrollController.addListener(_scrollListener);
+      update();
     });
   }
 
@@ -75,15 +81,19 @@ class MusicDivisionController extends GetxController {
   }
 
   Future<void> _scrollListener() async {
+
     if (scrollController.position.pixels ==
         scrollController.position.maxScrollExtent) {
-      if (!loading.value) {
-        loading.value = true;
-        Future.delayed(const Duration(seconds: 2)).then((s) {
-          visibleItemCount.value += 50;
-          loading.value = false;
-        });
-      }
+      Future.delayed(const Duration(microseconds: 500)).then((s) {
+          if(visibleItemCount.value+50>songsList.length){
+            visibleItemCount.value=songsList.length;
+          }else {
+            visibleItemCount.value += 50;
+          }
+          update();
+
+      });
+
     }
   }
 
@@ -103,7 +113,7 @@ class MusicDivisionController extends GetxController {
           if (listGrouping.containsKey(groupName)) {
             listGrouping[groupName]!.add(modelSong);
           } else {
-            listGrouping[groupName] = [modelSong];
+            listGrouping[groupName!] = [modelSong];
           }
           break;
         }
@@ -113,9 +123,7 @@ class MusicDivisionController extends GetxController {
 
   getAllSongsLocal({SongSortType? sortType}) async {
     if (!isFirstLaunch) {
-      final local = await receiveSongs.getSongs(
-          songSortType: sortType ?? SongSortType.DATE_ADDED);
-      allSongs.assignAll(local);
+      allSongs.assignAll(receiveSongs);
       modelAllSongs();
     } else {
       loadSongs();
@@ -165,12 +173,39 @@ class MusicDivisionController extends GetxController {
     if (index >= 0 && index < songsList.length) {
       songsList[index] = updatedSong;
       await boxAllSongs.putAt(index, updatedSong);
+      update(['song_$index']); // فقط آیتم خاص را آپدیت می‌کنیم
     }
   }
 
+void changeSortSongs(SongSortType sort){
+    if (sort case SongSortType.DATE_ADDED) {
+      songsList.sort((a, b) => a.dateAdded!.compareTo(b.dateAdded!));
+      songsList.value=songsList.reversed.toList();
+      songSortType.value = SongSortType.DATE_ADDED;
+    }else if(sort case SongSortType.DISPLAY_NAME){
+      songsList.sort((a, b) => a.displayName.compareTo(b.displayName));
+      songSortType.value=SongSortType.DISPLAY_NAME;
+    }else{
+      songsList.sort((a, b) => a.artist.compareTo(b.artist));
+      songSortType.value=SongSortType.ARTIST;
+    }
+    update();
+    Get.back();
+}
   void loadSongs() {
     final storedSongs = boxAllSongs.values.toList();
     songsList.assignAll(storedSongs);
+    final index = random.nextInt(songsList.length - 1);
+    randomSongs = songsList[index];
+    getListArtist();
+    addHiveDataToMap();
+    getGroupList();
+  }
+
+  everSongsList() {
+    getListArtist();
+    addHiveDataToMap();
+    getGroupList();
   }
 
   @override
